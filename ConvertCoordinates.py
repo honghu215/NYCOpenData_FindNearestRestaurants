@@ -1,31 +1,14 @@
-
+# before running the code, be sure to install via pip: sodapy, pandas
 # coding: utf-8
 
-# In[ ]:
-
-
 #CrossCompute
-user_address = ''
+user_address = 'INPUT ADDRESS'
 search_count = 10
-target_folder = '/home/user/Experiments'
-
-
-# In[ ]:
-
-
-get_ipython().system('pip install sodapy')
-
-
-# In[ ]:
-
+target_folder = 'YOUR WORKING FOLDER'
 
 import pandas
 from pandas import Series
 from sodapy import Socrata
-
-
-# In[ ]:
-
 
 client = Socrata('data.cityofnewyork.us',
                  'KYk3Ul7BNvcahTIWDyqVJdQwu',
@@ -35,53 +18,18 @@ results = client.get("9w7m-hzhe", limit=390000)
 restaurants = pandas.DataFrame.from_records(results)
 
 
-# In[ ]:
-
-
-len(restaurants)
-
-
-# In[ ]:
-
-
 restaurants_sort = restaurants.sort_values(by='inspection_date')
-
-
-# In[ ]:
-
-
-len(restaurants_sort)
-
-
-# In[ ]:
-
 
 from os.path import join
 sort_target_path = join(target_folder, 'sort.csv')
 restaurants_sort.to_csv(sort_target_path, index=False)
 
 
-# In[ ]:
-
-
 restaurants_deduplicate = restaurants.drop_duplicates(subset=['building', 'street', 'boro', 'dba'], keep='last')
-
-
-# In[ ]:
-
 
 
 deduplicate_target_path = join(target_folder, 'deduplicate.csv')
 restaurants_deduplicate.to_csv(deduplicate_target_path, index=False)
-
-
-# In[ ]:
-
-
-restaurants_deduplicate
-
-
-# In[ ]:
 
 
 geoclient_id = 'a3c926c5'
@@ -91,10 +39,6 @@ import requests
 import geopy
 geocode = geopy.GoogleV3(api_key='AIzaSyBxBSl2ESDVimP0-nW6i5vOccSO38Aw-js', timeout=5).geocode
 user_location = geocode(user_address)
-
-
-# In[ ]:
-
 
 
 errorCount = 0
@@ -123,38 +67,12 @@ def convert(row):
             errorCount += 1
             print(errorCount, building, street, boro, row['dba'], 'no coordinates!!!!!!')
             return Series([0.0, 0.0])
-        
 
 
-# In[ ]:
-
-
-import time
-timeBeforeConv = time.asctime(time.localtime(time.time()))
-print('Before converting, time is:', timeBeforeConv)
 coordinate_table = restaurants_deduplicate.apply(convert, axis=1)
-timeAfterConv = time.asctime(time.localtime(time.time()))
-print('After converting, time is:', timeAfterConv)
 coordinate_table.columns = ['Latitude', 'Longitude']
-#time consuming: 38 min
-
-
-# In[ ]:
-
-
-len(restaurants_deduplicate), len(coordinate_table)
-
-
-# In[ ]:
-
 
 restaurants_coordinate = restaurants_deduplicate.join(coordinate_table)
 coordinate_target_path = join(target_folder, 'deduplicate_coordinate.csv')
 restaurants_coordinate.to_csv(coordinate_target_path, index=False)
-
-
-# In[ ]:
-
-
-len(restaurants_coordinate)
 
