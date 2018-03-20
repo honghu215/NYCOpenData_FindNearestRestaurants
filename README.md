@@ -18,4 +18,4 @@ The tool is delpoyed on CrossCompute platform. Click [here](https://crosscompute
 ### Bugs
 * Takes long time: The dataset is huge, over 380,000 records. Although it can be filtered to 27,000, it takes over half an hour to resolve this number of addresses to coordinates. 
 
-![example](https://34.230.102.202/owncloud/index.php/s/JfuazhKJ2HKEiwz)
+![example](https://s3.amazonaws.com/hongowncloud/data/root/files/share/Screen+Shot+2018-03-20+at+10.18.57+AM.png)
