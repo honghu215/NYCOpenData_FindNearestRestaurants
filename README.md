@@ -6,6 +6,7 @@ This tool will show the user the nearest a number of restaurants (specified by u
 
 The dataset the tool is using is [DOHMH New York City Restaurant Inspection Results](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j) from NYC Open Data.  
 The tool is delpoyed on CrossCompute platform. Click [here](https://crosscompute.com/t/YLhMnMnpMLvaCXwa8MNFpr4h6OyKdmWp) to run the program.
+![example](http://wx2.sinaimg.cn/large/6a146209gy1fpjnl5o22uj20zx0eon43.jpg)
 
 ### How it works
 * Basically, it uses KD-Tree to build a 10-D tree (let's say search count it 10), and then find the shortest distance from the user's position. It calculates the distance in the form of nodes, which in this case is coordinates(latitude and longitude). 
@@ -18,4 +19,4 @@ The tool is delpoyed on CrossCompute platform. Click [here](https://crosscompute
 ### Bugs
 * Takes long time: The dataset is huge, over 380,000 records. Although it can be filtered to 27,000, it takes over half an hour to resolve this number of addresses to coordinates. 
 
-![example](http://wx2.sinaimg.cn/large/6a146209gy1fpjnl5o22uj20zx0eon43.jpg)
+
